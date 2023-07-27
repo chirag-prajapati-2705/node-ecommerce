@@ -1,37 +1,36 @@
-// var http = require("http");
-// http
-//   .createServer(function (req, res) {
-//     //res.writeHead(200, { "Content-Type": "text/plain" });
-//     res.write("Hello World!");
-//     res.end();
-//   })
-//   .listen(8080);
-
+require('./config/database') 
 const express = require("express");
 const app = express();
-const port = 3000;
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
+const bodyparser = require("body-parser");
+
+//model binding
+require("./models/category");
+require("./models/customer");
+
+//middleware
+app.use(express.json());
+app.use(bodyparser.urlencoded({ extended: true }));
+app.use(bodyparser.json());
 
 dotenv.config();
 
-mongoose.connect("mongodb://localhost:27017/usersdb", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+const category = require('./controllers/categoryController')
+const users = require('./controllers/usersController')
+const customer = require('./controllers/customerController')
 
-console.log(process.env.PORT);
 
 app.get("/", (req, res) => {
-  res.send("Hello World!");
+  res.json({'message':'Connected with the API'})
 });
 
 //Users Route
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
 
-app.listen(port, () => {
-  console.log(`This is the port Number ${port}`);
+app.listen(process.env.PORT, () => {
+  console.log(`This is the port Number ${process.env.PORT}`);
 });
+app.use('/users',users);
+app.use('/categories',category);
+app.use('/customer',customer);
