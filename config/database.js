@@ -21,8 +21,7 @@
 
 const mongoose = require("mongoose");
 //const url = 'mongodb://localhost:27017/node-ecommerce';
-//DATABASE_URL='mongodb://localhost:27017/swoogo?retryWrites=true&w=majority'
-DATABASE_URL = 'mongodb+srv://chiragp:1CiciqDnH3rvuTHB@cluster0.d4sdsxv.mongodb.net/node-ecommerce?retryWrites=true&w=majority'
+DATABASE_URL='mongodb://localhost:27017/swoogo?retryWrites=true&w=majority'
 
 
 mongoose.connect(DATABASE_URL).catch((error) => {
