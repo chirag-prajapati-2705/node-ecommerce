@@ -1,28 +1,6 @@
-// const mongoose = require('mongoose');
-// // Connection URL and database name
-//  const url = 'mongodb://localhost:27017/node-ecommerce';
-// //const url = 'mongodb+srv://chiragp:1CiciqDnH3rvuTHB@cluster0.d4sdsxv.mongodb.net/node-ecommerce'
-
-// // Connect to MongoDB
-// mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
-
-// // Get the default connection
-// const db = mongoose.connection;
-
-// // Event listeners for connection events
-// db.on('error', console.error.bind(console, 'Error connecting to MongoDB:'));
-// db.once('open', function() {
-// console.log('Connected successfully to MongoDB');
-//   // Perform database operations here
-//   // Close the MongoDB connection
-//   mongoose.connection.close();
-// });
-// require("../models/users");
-
 const mongoose = require("mongoose");
-//const url = 'mongodb://localhost:27017/node-ecommerce';
-DATABASE_URL='mongodb://localhost:27017/swoogo?retryWrites=true&w=majority'
-
+DATABASE_URL =
+  "mongodb+srv://chiragp:1CiciqDnH3rvuTHB@cluster0.d4sdsxv.mongodb.net/node-ecommerce?retryWrites=true&w=majority";
 
 mongoose.connect(DATABASE_URL).catch((error) => {
   console.log(`* * * Database connected failed -> ${error.message} * * *`);
@@ -37,3 +15,8 @@ db.once("open", () => {
 });
 require("../models/users");
 module.exports = db;
+
+
+mongodb+srv://expi:*****@expiwell.8inrc.mongodb.net/expimetrics-prod?authSource=admin&replicaSet=atlas-de0hb1-shard-0&w=majority&readPreference=primary&appname=MongoDB%20Compass&retryWrites=true&ssl=true
+
+mongodb+srv://chiragp:1CiciqDnH3rvuTHB@cluster0.d4sdsxv.mongodb.net/node-ecommerce?retryWrites=true&w=majority&readPreference=primary
