@@ -21,6 +21,7 @@ var CustomerSchema = new mongoose.Schema({
         type:Boolean,
         default: 1,
     },
+    customer_address:[],
     created_date: {
 		type: Date,
 		default: Date.now, // Date in one week from now
@@ -29,7 +30,7 @@ var CustomerSchema = new mongoose.Schema({
 		type: Date,
 		default: Date.now , // Date in one week from now
 	},
-    
+
 })
 
 

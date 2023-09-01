@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const { boolean } = require("webidl-conversions");
 
 var productSchema = new mongoose.Schema({
     product_name:{
@@ -25,11 +24,7 @@ var productSchema = new mongoose.Schema({
         type:String,
         required:'This field is required'
     },
-    quantity:{
-        type:String,
-        required:'This field is required'
-    },
-    category:{type: mongoose.Schema.Types.ObjectId,ref: 'Category',required: true },
+    category:[{type: mongoose.Schema.Types.ObjectId,ref: 'Category',required: true }],
     created_date: {
 		type: Date,
 		default: Date.now, // Date in one week from now
@@ -38,7 +33,8 @@ var productSchema = new mongoose.Schema({
 		type: Date,
 		default: Date.now , // Date in one week from now
 	},
-    
+
 })
 
-module.exports = mongoose.model('Product', productSchema);
+module.exports = mongoose.model('Products', productSchema);
+

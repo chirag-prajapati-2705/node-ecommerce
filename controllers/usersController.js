@@ -8,7 +8,7 @@ router.get("/", async (req, res) => {
     var users = await User.find();
     res.json({'user':users})
 });
-  
+
 router.post("/store", async (req, res) => {
     var {first_name,last_name,email,password} = req.body;
     const newUser = {
@@ -34,14 +34,13 @@ router.post("/update", async (req, res) => {
         first_name: first_name,
         last_name: last_name, // New age value
       };
-      
-      await User.updateOne({ _id: userId }, updateData)
-        .then((result) => {
+
+      await User.updateOne({ _id: userId }, updateData).then((result) => {
           res.json({'message':'user has been successfully updated!'})
         })
         .catch((error) => {
           res.json({'message':error})
-        });
+     });
 });
 
 

@@ -8,7 +8,8 @@ router.get("/", async (req, res) => {
     var categories = await Category.find();
     res.json({'categories':categories})
 });
-  
+
+
 router.post("/store", async (req, res) => {
     var {category_name,category_description,category_slug} = req.body;
     const newCategory = {
@@ -33,7 +34,7 @@ router.post("/update", async (req, res) => {
         category_name: category_name,
         category_description: category_description,
       };
-      
+
       await Category.updateOne({ _id: categoryId }, updateData)
         .then((result) => {
           res.json({'message':'category has been successfully updated!'})
