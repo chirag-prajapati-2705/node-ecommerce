@@ -1,3 +1,4 @@
+require("./config/database");
 require('./config/database')
 const express = require("express");
 const app = express();
@@ -8,8 +9,8 @@ const bodyparser = require("body-parser");
 //model binding
 require("./models/category");
 require("./models/customer");
-require("./models/products.js");
-require("./models/cart.js");
+require("./models/products");
+require("./models/cart");
 
 
 //middleware
@@ -21,11 +22,10 @@ dotenv.config();
 
 
 app.get("/", (req, res) => {
-  res.json({'message':'Connected with the API'})
+  res.json({ message: "Connected with the API" });
 });
 
 //Users Route
-
 
 app.listen(process.env.PORT, () => {
   console.log(`This is the port Number ${process.env.PORT}`);
@@ -40,5 +40,6 @@ const cart = require('./controllers/CartController')
 app.use('/users',users);
 app.use('/categories',category);
 app.use('/customer',customer);
-app.use('/product',product);
+app.use("/products", product);
 app.use('/cart',cart);
+
