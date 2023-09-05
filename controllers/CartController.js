@@ -14,7 +14,7 @@ router.get("/", async (req, res) => {
 
 
 router.post("/add-cart", async (req, res) => {
-    let {quantity, product_id, user_id} = req.body;
+    let {quantity, product_id, customer_id} = req.body;
     let cart_data = {};
     try {
         var product = await Product.findById(product_id);
@@ -30,7 +30,7 @@ router.post("/add-cart", async (req, res) => {
         total_price : product.price * quantity,
         productId: product_id,
     }
-    const cart = await Cart.findOne({user: user_id});
+    const cart = await Cart.findOne({customer: customer_id});
     if (cart) {
         let item_index = _.findIndex(cart.items, function (o) {return o.productId == product_id});
         if (item_index >= 0) {
@@ -43,7 +43,7 @@ router.post("/add-cart", async (req, res) => {
         res.json({'message': 'product has been successfully added in cart!'});
     } else {
         cart_data.items = cart_items;
-        cart_data.user = user_id
+        cart_data.customer = customer_id
         Cart.create(cart_data).then((item) => {
             res.json({'message': 'product has been successfully added in cart!'})
         });
