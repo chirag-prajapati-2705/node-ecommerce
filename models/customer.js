@@ -33,6 +33,12 @@ var CustomerSchema = new mongoose.Schema({
 
 })
 
+CustomerSchema.methods.verifyPassword = function(password, callback) {
+    console.log(password);
+    callback(err, bcrypt.compareSync(password, this.password));
+};
+
+
 
 module.exports = mongoose.model('Customer', CustomerSchema);
 

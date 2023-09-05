@@ -4,6 +4,7 @@ var router = express.Router();
 const Cart = mongoose.model("Cart");
 const Product = mongoose.model("Products");
 var _ = require('lodash');
+const bcrypt = require("bcryptjs")
 
 
 router.get("/", async (req, res) => {
