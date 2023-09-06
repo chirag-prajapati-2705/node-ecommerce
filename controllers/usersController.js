@@ -1,8 +1,11 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const app = express();
 var router = express.Router();
 const User = mongoose.model("User");
+const bcrypt = require("bcryptjs");
+
+
+
 
 router.get("/", async (req, res) => {
     var users = await User.find();
@@ -15,7 +18,7 @@ router.post("/store", async (req, res) => {
         first_name: first_name,
         last_name: last_name,
         email: email,
-        password: password,
+        password: bcrypt.hashSync(password, 8),
       };
       User.create(newUser)
       .then((user) => {
