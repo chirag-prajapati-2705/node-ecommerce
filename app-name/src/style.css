@@ -1,0 +1,6 @@
+.hidden{
+    display: none;
+}
+.form-check-label{
+    text-transform: capitalize;
+}
