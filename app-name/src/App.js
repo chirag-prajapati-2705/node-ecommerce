@@ -10,7 +10,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <AppLogo></AppLogo>
+        {/*<AppLogo></AppLogo>*/}
         <MainComponent></MainComponent>
         <a
           className="App-link"

@@ -4,3 +4,7 @@
 .form-check-label{
     text-transform: capitalize;
 }
+
+.img-4by3-lg {
+    width: 6.5rem;
+}

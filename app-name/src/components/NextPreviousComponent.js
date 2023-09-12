@@ -3,7 +3,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../style.css";
 import _ from "lodash";
 
-
 function OptionButtonGroup(props) {
     let selectedOption = null;
     const selectedOptions = _.find(props.responseData, function (obj) {
@@ -117,7 +116,7 @@ function NextPreviousComponent() {
             <div className="card-body">
                 <div className="mt-3">
                     <div className="d-flex justify-content-between">
-                        <span>Exam Progress: {progressBar}</span>
+                        <span>Exam Progress: </span>
                         <span> Question {index + 1} out of {all_questions.length}</span>
                     </div>
                     <div className="mt-2">
@@ -158,39 +157,6 @@ function NextPreviousComponent() {
 
     return (<>
         {template}
-        {/*<div className="card-body">*/}
-        {/*    <div className="mt-3">*/}
-        {/*        <div className="d-flex justify-content-between">*/}
-        {/*            <span>Exam Progress: {progressBar}</span>*/}
-        {/*            <span> Question {index + 1} out of {all_questions.length}</span>*/}
-        {/*        </div>*/}
-        {/*        <div className="mt-2">*/}
-        {/*            <div className="progress">*/}
-        {/*                <div className="progress-bar bg-success" role="progressbar" style={{width: progressBar + '%'}}*/}
-        {/*                     aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>*/}
-        {/*            </div>*/}
-        {/*        </div>*/}
-        {/*    </div>*/}
-        {/*    <div className="mt-5">*/}
-        {/*        <span>Question {index + 1}</span>*/}
-        {/*        <h3 className="mb-3 mt-1" key={question.id}>{question.title}</h3>*/}
-        {/*        <div className="list-group">*/}
-        {/*            <OptionButtonGroup options={question.options} current_question={question}*/}
-        {/*                               handleChange={handleChange} responseData={response}></OptionButtonGroup>*/}
-        {/*        </div>*/}
-        {/*    </div>*/}
-
-        {/*</div>*/}
-        {/*<div className="d-flex justify-content-between">*/}
-        {/*    <button className="btn btn-secondary" onClick={getPrevious}>*/}
-        {/*        <i className="fe fe-arrow-left"></i> Previous*/}
-        {/*    </button>*/}
-        {/*    <button className="btn btn-primary" onClick={getNext}>*/}
-        {/*        Next <i className="fe fe-arrow-right"></i>*/}
-        {/*    </button>*/}
-        {/*</div>*/}
-        {/*/!*<SubmitQuiz total_index={all_questions.length} current_index={index}></SubmitQuiz>*!/*/}
-        {/*<a className="btn btn-primary" onClick={handleSubmit}>Submit</a>*/}
     </>)
 }
 
