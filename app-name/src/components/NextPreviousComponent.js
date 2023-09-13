@@ -2,6 +2,8 @@ import React, {useState} from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../style.css";
 import _ from "lodash";
+import questions from '../data/questions'
+
 
 function OptionButtonGroup(props) {
     let selectedOption = null;
@@ -33,37 +35,12 @@ function OptionButtonGroup(props) {
 }
 
 function NextPreviousComponent() {
-    const all_questions = [
-        {
-            id: 1, title: "Which of these keywords are access specifiers?", options: [
-                {id: 1, title: 'near and far'},
-                {id: 2, title: 'opened and closed'},
-                {id: 3, title: 'table and row'},
-                {id: 4, title: 'none of these'}
-            ],
-        },
-        {
-            id: 2, title: "Use of ______protects data from inadvertent modifications", options: [
-                {id: 1, title: 'protect() member function'},
-                {id: 2, title: 'private access specifier'},
-                {id: 3, title: 'class protection operator, @'},
-                {id: 4, title: 'public access specifier'}
-
-            ]
-        },
-        {
-            id: 3, title: "Entomology is the science that studies", options: [
-                {id: 1, title: 'Behavior of human beings'},
-                {id: 2, title: 'Insects'},
-                {id: 3, title: 'The origin and history of technical and scientific terms'},
-                {id: 4, title: 'The formation of rocks'}
-            ]
-        },
-    ];
+    const all_questions = questions;
     const [index, setIndex] = useState(0);
     const [response, setResponse] = useState([]);
     const [progressBar, setProgressBar] = useState(0);
     const [submit, setSubmit] = useState(false);
+    const [correctAnswerCount, setCorrectAnswerCount] = useState(0);
 
     function handleChange(event) {
         const getIndex = _.findIndex(response, function (o) {
@@ -99,6 +76,18 @@ function NextPreviousComponent() {
     var question = all_questions[index];
 
     function handleSubmit() {
+        let correct_answer = 0;
+        for (let i = 0; i < response.length; i++) {
+            let question_id =response[i].question;
+            let answer =response[i].option;
+            let question = _.find(all_questions, function (obj) {
+                return obj.id == question_id;
+            });
+            if (!_.isUndefined(question) && answer==question.correctAnswer) {
+                correct_answer = correct_answer + 1;
+            }
+        }
+        setCorrectAnswerCount(correct_answer);
         setSubmit(true);
     };
     let template;

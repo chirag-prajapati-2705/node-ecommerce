@@ -6,15 +6,29 @@ const dotenv = require("dotenv");
 const bodyparser = require("body-parser");
 const passport = require("passport");
 const session = require("express-session");
+const cors = require('cors');
+const flash = require('connect-flash');
+
 
 dotenv.config();
+app.use(flash());
+
 //model binding
 require("./models/category");
 require("./models/customer");
 require("./models/products");
 require("./models/cart");
 
+// Enable CORS for all routes or specify the allowed origins
+const corsOptions = {
+    origin: 'http://localhost:3000',
+};
+
+app.use(cors(corsOptions));
+
+
 //middleware
+
 app.use(express.json());
 app.use(bodyparser.urlencoded({extended: true}));
 app.use(bodyparser.json());

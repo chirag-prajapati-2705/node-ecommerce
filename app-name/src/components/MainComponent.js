@@ -35,11 +35,11 @@ function MainComponent() {
                 <div className="row align-items-center">
 
                 </div>
-                <div class="row mt-0 mt-md-4">
+                <div className="row mt-0 mt-md-4">
                     <div className="col-lg-3 col-md-4 col-12">
 
                     </div>
-                    <div class="col-lg-9 col-md-8 col-12">
+                    <div className="col-lg-9 col-md-8 col-12">
                         <div className="d-flex justify-content-between align-items-center border-bottom pb-3 mb-3">
                             <div className="d-flex align-items-center">
                                 <a href="#"> <img src="course-react.jpg" alt="course"

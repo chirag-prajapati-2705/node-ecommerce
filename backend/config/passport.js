@@ -17,11 +17,21 @@ passport.deserializeUser(async function (id, done) {
     })
 });
 
-passport.use('user-local', new LocalStrategy({usernameField: 'email', passwordField: 'password', session: true},async function (email, password, done) {
+passport.use('user-local', new LocalStrategy({
+        usernameField: 'email',
+        passwordField: 'password',
+        session: true
+    }, async function (email, password, done) {
         let user = await User.findOne({email: email});
-        let validatePassword = await bcrypt.compare(password,user.password)
+        if (!user) {
+            //return done(null, false,{ message: 'bad password' });
+            console.log('user does not found');
+            return done(null, false, {message: 'Invalid username or password'});
+        }
+        let validatePassword = await bcrypt.compare(password, user.password)
         if (!user || !validatePassword) {
-            return done(null, false);
+            console.log('Yesssdddddd');
+            return done(null, false, {message: 'bad password'});
         }
         return done(null, user);
     }
@@ -31,11 +41,35 @@ router.get('/login', function (req, res, next) {
     res.json({message: "login page"});
 });
 
+const sendError = (err, res) => res.status(500).json({err: err.toString()});
 
-router.post('/login', passport.authenticate('user-local', {failureRedirect: '/auth/login'}), function (req, res) {
+// router.post('/login', passport.authenticate('user-local', {failureMessage: true,failureRedirect: '/auth/login'}), function (req, res) {
+//
+//     res.redirect('/auth/profile');
+// });
+//router.post('/login',passport.authenticate('user-local', { successRedirect: '/',failureRedirect: '/auth/login',failureFlash: true }));
 
-    res.redirect('/auth/profile');
+router.post('/login', (req, res, next) => {
+    passport.authenticate('user-local', (err, user, info) => {
+        if (err) {
+            return next(err);
+        }
+        if (!user) {
+            // Authentication failed, return an error response
+            return res.status(401).json({message: 'Invalid username or password'});
+        }
+
+        // Authentication successful, log the user in
+        req.logIn(user, (loginErr) => {
+            if (loginErr) {
+                return next(loginErr);
+            }
+            // Return a success response or redirect as needed
+            return res.json({message: 'Login successful', user}); // You can customize the response format
+        });
+    })(req, res, next);
 });
+
 
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()) {
