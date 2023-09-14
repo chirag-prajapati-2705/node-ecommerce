@@ -2,25 +2,32 @@ import {Formik, Form, Field, ErrorMessage, useFormik} from 'formik';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../style.css";
 import * as Yup from 'yup';
-import {redirect, useNavigate,Link} from "react-router-dom";
+import {redirect, useNavigate, Link} from "react-router-dom";
 import {useState} from "react";
+import _ from "lodash";
+import axios from 'axios';
 
 
 async function loginUser(credentials) {
-    return fetch('http://localhost:8080/auth/login', {
-        method: 'POST',
+
+    return await axios.post('http://localhost:8080/auth/login', credentials, {
         headers: {
             'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(credentials)
+        }
     })
-        .then(data => data.json())
+        .then(function (data) {
+            return data;
+        })
+        .catch(function (error) {
+            return error
+        });
+
 }
 
 function AuthErrorMessage(props) {
     console.log(props.message);
     let template;
-    if (props.message != '') {
+    if (!_.isUndefined(props.message) && !_.isEmpty(props.message)) {
         template = <div className="alert alert-danger" role="alert">
             {props.message}
         </div>
@@ -32,18 +39,18 @@ function LoginForm() {
     const navigate = useNavigate();
     const initialValues = {email: '', password: ''};
     const [errorMessage, setErrorMessage] = useState('');
-
     const onSubmit = async values => {
         let email = values.email;
         let password = values.password;
         try {
             const response = await loginUser({email, password});
-            console.log('---------response----------', response);
-            if (response.user) {
-                navigate('/');
+            let token = (!_.isUndefined(response.data.token) && !_.isEmpty(response.data.token)) ? response.data.token:null;
+            if (token) {
+                window.localStorage.setItem("token", response.token);
+                window.localStorage.setItem("loggedIn", true);
+                navigate('/dashboard');
             }
             setErrorMessage(response.message);
-
         } catch (e) {
             console.log('catch');
             console.log(e);

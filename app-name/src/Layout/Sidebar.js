@@ -1,95 +1,85 @@
+import {BrowserRouter, Route, Link, Routes, Outlet} from 'react-router-dom';
 
-const Navbar = () => {
+
+import ProductList from "../modules/Product/ProductList";
+import Dashboard from "../modules/dashboard/dashboard";
+import Contact from "../Pages/Contact";
+import ProductCreate from "../modules/Product/ProductCreate";
+import Login from "../components/Login";
+import Registration from "../components/Auth/Registration";
+import NoPage from "../Pages/NoPage";
+
+
+const Sidebar = () => {
     return (
-        <aside className="main-sidebar">
-            <section className="sidebar">
-                <div className="user-panel">
-                    <div className="pull-left image">
-                        <img src="img/user2-160x160.jpg" className="img-circle" alt="User Image" />
+        <>
+            <aside className="main-sidebar sidebar-dark-primary elevation-4">
+                <a href="index3.html" className="brand-link">
+                    <img src={process.env.PUBLIC_URL + '/img/AdminLTELogo.png'} alt="AdminLTE Logo"
+                         className="brand-image img-circle elevation-3"
+                         style={{opacity: .8}}></img>
+                    <span className="brand-text font-weight-light">AdminLTE 3</span>
+                </a>
+
+                <div className="sidebar">
+                    <div className="user-panel mt-3 pb-3 mb-3 d-flex">
+                        <div className="image">
+                            <img src={process.env.PUBLIC_URL + '/img/user2-160x160.jpg'}
+                                 className="img-circle elevation-2" alt="User Image"></img>
+                        </div>
+                        <div className="info">
+                            <a href="#" className="d-block">Alexander Pierce</a>
+                        </div>
                     </div>
-                    <div className="pull-left info">
-                        <p>Alexander Pierce</p>
-                        <a href="#"><i className="fa fa-circle text-success"></i> Online</a>
-                    </div>
-                </div>
-                <form action="#" method="get" className="sidebar-form">
-                    <div className="input-group">
-                        <input type="text" name="q" className="form-control" placeholder="Search..." />
-                        <span className="input-group-btn">
-                                <button type="submit" name="search" id="search-btn" className="btn btn-flat"><i className="fa fa-search"></i>
+
+                    <div className="form-inline">
+                        <div className="input-group" data-widget="sidebar-search">
+                            <input className="form-control form-control-sidebar" type="search" placeholder="Search"
+                                   aria-label="Search"></input>
+                            <div className="input-group-append">
+                                <button className="btn btn-sidebar">
+                                    <i className="fas fa-search fa-fw"></i>
                                 </button>
-                            </span>
+                            </div>
+                        </div>
                     </div>
-                </form>
-                <ul className="sidebar-menu" data-widget="tree">
-                    <li className="header">MAIN NAVIGATION</li>
-                    <li className="treeview">
-                        <a href="#">
-                            <i className="fa fa-files-o"></i>
-                            <span>Layout Options</span>
-                            <span className="pull-right-container">
-                                <span className="label label-primary pull-right">4</span>
-                                </span>
-                        </a>
-                        <ul className="treeview-menu">
-                            <li><a href="pages/layout/top-nav.html"><i className="fa fa-circle-o"></i> Top Navigation</a></li>
-                            <li><a href="pages/layout/boxed.html"><i className="fa fa-circle-o"></i> Boxed</a></li>
-                            <li><a href="pages/layout/fixed.html"><i className="fa fa-circle-o"></i> Fixed</a></li>
-                            <li><a href="pages/layout/collapsed-sidebar.html"><i className="fa fa-circle-o"></i> Collapsed Sidebar</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="pages/widgets.html">
-                            <i className="fa fa-th"></i> <span>Widgets</span>
-                            <span className="pull-right-container">
-                            <small className="label pull-right bg-green">new</small>
-                            </span>
-                        </a>
-                    </li>
-                    <li className="treeview">
-                        <a href="#">
-                            <i className="fa fa-pie-chart"></i>
-                            <span>Charts</span>
-                            <span className="pull-right-container">
-                            <i className="fa fa-angle-left pull-right"></i>
-                            </span>
-                        </a>
-                        <ul className="treeview-menu">
-                            <li><a href="pages/charts/chartjs.html"><i className="fa fa-circle-o"></i> ChartJS</a></li>
-                            <li><a href="pages/charts/morris.html"><i className="fa fa-circle-o"></i> Morris</a></li>
-                            <li><a href="pages/charts/flot.html"><i className="fa fa-circle-o"></i> Flot</a></li>
-                            <li><a href="pages/charts/inline.html"><i className="fa fa-circle-o"></i> Inline charts</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <ul className="treeview-menu">
-                            <li><a href="pages/tables/simple.html"><i className="fa fa-circle-o"></i> Simple tables</a></li>
-                            <li><a href="pages/tables/data.html"><i className="fa fa-circle-o"></i> Data tables</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="pages/calendar.html">
-                            <i className="fa fa-calendar"></i> <span>Calendar</span>
-                            <span className="pull-right-container">
-                            <small className="label pull-right bg-red">3</small>
-                            <small className="label pull-right bg-blue">17</small>
-                            </span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="pages/mailbox/mailbox.html">
-                            <i className="fa fa-envelope"></i> <span>Mailbox</span>
-                            <span className="pull-right-container">
-                            <small className="label pull-right bg-yellow">12</small>
-                            <small className="label pull-right bg-green">16</small>
-                            <small className="label pull-right bg-red">5</small>
-                            </span>
-                        </a>
-                    </li>
-                </ul>
-            </section>
-        </aside>
+                        <nav className="mt-2">
+                            <ul className="nav nav-pills nav-sidebar flex-column">
+                                <li className="nav-item">
+                                    <Link to="/dashboard" className="nav-link">Dashboard</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link to="/contact" className="nav-link">Contact</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link to="/product/list" className="nav-link">Product</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link to="/category/list" className="nav-link">Category</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link to="/menu" className="nav-link">Menu</Link>
+                                </li>
+                            </ul>
+                        </nav>
+                        {/*<Routes>*/}
+
+                        {/*    <Route exact path="dashboard" element={<Dashboard/>}/>*/}
+                        {/*    <Route exact path="contact" element={<Contact/>}/>*/}
+                        {/*    <Route exact path="product/list" element={<ProductList/>}/>*/}
+                        {/*    <Route exact path="product/create" element={<ProductCreate/>}/>*/}
+                        {/*    <Route exact path="product/create" element={<ProductCreate/>}/>*/}
+                        {/*</Routes>*/}
+
+
+
+
+
+                </div>
+            </aside>
+        </>
+
     );
 };
 
-export default Navbar;
+export default Sidebar;
