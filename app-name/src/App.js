@@ -32,22 +32,25 @@ function getToken() {
 function App() {
     const token = getToken();
     const [user, setUser] = useState({});
-
-
     useEffect(() => {
-        const data = axios.get(`http://localhost:8080/auth/profile/`)
-            .then(function (response) {
-                return response
-            })
-            .catch(function (error) {
-                return error
-            })
-            .finally(function () {
-                // always executed
-            });
+        const getUsers = async () => {
+            const response =  await axios.get('http://localhost:8080/auth/profile/',{ headers: {'Authorization': 'Bearer '+token}})
+                .then((response) => {
+                    return response;
 
-        console.log(data);
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+            setUser(response.data.user);
+        };
+
+        getUsers();
+
     }, []);
+
+
+
 
     return (
         <div className="App">
@@ -56,7 +59,7 @@ function App() {
                     {token && (
                         <>
                             <Header/>
-                            <Sidebar></Sidebar>
+                            <Sidebar user={user}></Sidebar>
                         </>
                     )}
 
@@ -82,7 +85,13 @@ function App() {
                         {/*</Route>*/}
                     </Routes>
                     <Outlet/>
-                    <Footer></Footer>
+                    {token && (
+                        <>
+                            <Footer></Footer>
+
+                        </>
+                    )}
+
                 </BrowserRouter>
             </div>
         </div>

@@ -40,11 +40,12 @@ function LoginForm() {
         let password = values.password;
         try {
             const response = await loginUser({email, password});
+            console.log(response.data.token);
             let token = (!_.isUndefined(response.data.token) && !_.isEmpty(response.data.token)) ? response.data.token:null;
             if (token) {
-                window.localStorage.setItem("token", response.token);
+                window.localStorage.setItem("token", token);
                 window.localStorage.setItem("loggedIn", true);
-                navigate('/dashboard');
+                navigate('/');
             }
             setErrorMessage(response.message);
         } catch (e) {

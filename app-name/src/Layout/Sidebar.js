@@ -10,15 +10,16 @@ import Registration from "../components/Auth/Registration";
 import NoPage from "../Pages/NoPage";
 
 
-const Sidebar = () => {
+const Sidebar = (props) => {
     return (
         <>
+
             <aside className="main-sidebar sidebar-dark-primary elevation-4">
                 <a href="index3.html" className="brand-link">
                     <img src={process.env.PUBLIC_URL + '/img/AdminLTELogo.png'} alt="AdminLTE Logo"
                          className="brand-image img-circle elevation-3"
                          style={{opacity: .8}}></img>
-                    <span className="brand-text font-weight-light">AdminLTE 3</span>
+                    <span className="brand-text font-weight-light">Theme</span>
                 </a>
 
                 <div className="sidebar">
@@ -28,7 +29,7 @@ const Sidebar = () => {
                                  className="img-circle elevation-2" alt="User Image"></img>
                         </div>
                         <div className="info">
-                            <a href="#" className="d-block">Alexander Pierce</a>
+                            <a className="d-block">{props.user.first_name} {props.user.last_name}</a>
                         </div>
                     </div>
 
