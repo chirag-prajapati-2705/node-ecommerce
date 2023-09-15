@@ -10,11 +10,7 @@ import axios from 'axios';
 
 async function loginUser(credentials) {
 
-    return await axios.post('http://localhost:8080/auth/login', credentials, {
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
+    return await axios.post('http://localhost:8080/auth/login', credentials)
         .then(function (data) {
             return data;
         })

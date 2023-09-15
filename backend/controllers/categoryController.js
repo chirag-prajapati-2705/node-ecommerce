@@ -5,17 +5,31 @@ var router = express.Router();
 const Category = mongoose.model("Category");
 
 router.get("/", async (req, res) => {
-    var categories = await Category.find();
-    res.json({'categories':categories})
+    let limitValue = req.query.limit  || 1;
+    let skipValue = req.query.skip * limitValue || 0;
+    let totalPages =0;
+
+    let categories = [];
+    if(req.query.all){
+         categories = await Category.find();
+    }else{
+         categories = await Category.find().limit(limitValue).skip(skipValue);
+        let category_count = await Category.count().then(count => {
+            return count;
+        });
+        totalPages = Math.ceil(category_count / limitValue);
+    }
+    res.json({'categories':categories,'totalPages':totalPages})
 });
 
 
 router.post("/store", async (req, res) => {
-    var {category_name,category_description,category_slug} = req.body;
+    var {category_name,category_description,category_slug,parent_id} = req.body;
     const newCategory = {
         category_name: category_name,
         category_description: category_description,
-        category_slug: category_slug
+        category_slug: category_slug,
+        parent_id:parent_id
       };
       Category.create(newCategory)
       .then((category) => {
@@ -45,8 +59,8 @@ router.post("/update", async (req, res) => {
 });
 
 
-router.delete("/delete", (req, res) => {
-  const categoryId = req.body._id;
+router.delete("/delete/:categoryId", (req, res) => {
+  const categoryId = req.params.categoryId;
   Category.deleteOne({ _id: categoryId }).then((result) => {
     res.json({'message':'category has been successfully deleted!'})
   }).catch((error) => {

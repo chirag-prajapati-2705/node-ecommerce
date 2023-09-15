@@ -8,11 +8,7 @@ import axios from 'axios';
 
 
 async function saveProduct(request_data) {
-    return await axios.post('http://localhost:8080/products/store', request_data, {
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
+    return await axios.post('http://localhost:8080/products/store', request_data)
         .then(function (data) {
             return data;
         })

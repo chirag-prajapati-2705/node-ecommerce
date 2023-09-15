@@ -1,7 +1,7 @@
 import logo from "./logo.svg";
 import "./App.css";
 import MainComponent from "./components/MainComponent";
-import {BrowserRouter, Routes, Route, Switch, Outlet, Link} from "react-router-dom";
+import {BrowserRouter, Routes, Route, Outlet, useParams} from "react-router-dom";
 import Home from './Pages/Home'
 import Contact from './Pages/Contact'
 import NoPage from './Pages/NoPage'
@@ -17,6 +17,8 @@ import ProductCreate from "./modules/Product/ProductCreate";
 import CategoryList from "./modules/Category/CategoryList";
 import CategoryCreate from "./modules/Category/CategoryCreate";
 import './style.css'
+import {useEffect, useState} from "react";
+import axios from "axios";
 
 function AppLogo() {
     return <img src={logo} className="App-logo" alt="logo"/>;
@@ -29,19 +31,40 @@ function getToken() {
 
 function App() {
     const token = getToken();
-    console.log(token);
+    const [user, setUser] = useState({});
+
+
+    useEffect(() => {
+        const data = axios.get(`http://localhost:8080/auth/profile/`)
+            .then(function (response) {
+                return response
+            })
+            .catch(function (error) {
+                return error
+            })
+            .finally(function () {
+                // always executed
+            });
+
+        console.log(data);
+    }, []);
+
     return (
         <div className="App">
-
             <div className="wrapper">
                 <BrowserRouter>
-                    <Header/>
-                    <Sidebar></Sidebar>
+                    {token && (
+                        <>
+                            <Header/>
+                            <Sidebar></Sidebar>
+                        </>
+                    )}
+
                     <Routes>
                         {/*<Route path="/" element={<Sidebar />}>*/}
                         {token && (
                             <>
-                                <Route exact={true} path="dashboard" element={<Dashboard/>}/>
+                                <Route exact={true} path="/" element={<Dashboard/>}/>
                                 <Route exact={true} path="contact" element={<Contact/>}/>
                                 <Route exact={true} path="product/list" element={<ProductList/>}/>
                                 <Route exact={true} path="product/create" element={<ProductCreate/>}/>

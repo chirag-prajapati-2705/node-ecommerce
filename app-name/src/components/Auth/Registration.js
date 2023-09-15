@@ -8,7 +8,6 @@ import {useState} from "react";
 async function signup(credentials) {
     return fetch('http://localhost:8080/users/store', {
         method: 'POST',
-        headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(credentials)
     })
         .then(data => data.json())
@@ -37,7 +36,6 @@ function SignupForm() {
         let password = values.password;
         try {
             const response = await signup({email, password, first_name, last_name});
-            console.log('---------response----------', response);
             if (response.user) {
                 navigate('/login');
             }

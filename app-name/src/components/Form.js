@@ -34,8 +34,6 @@ class UserForm extends Component {
     const form = e.target;
     const formData = new FormData(form);
     const formJson = Object.fromEntries(formData.entries());
-    console.log(formJson);
-    //this.setState({ first_name: event.target.value });
   };
   render() {
     return (

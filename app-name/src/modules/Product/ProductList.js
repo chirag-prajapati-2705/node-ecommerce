@@ -1,15 +1,19 @@
 import {Link, useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import axios from 'axios';
+import _ from "lodash";
 
 function ProductPagination(props) {
-    console.log(props.currentPage)
-    const elements = [<li key='0' className="page-item"><a className="page-link" href="#"
-                                                           onClick={props.handlePrevPage}>«</a></li>];
+    const elements = [<li key='0' className="page-item"><a className="page-link" href="#" onClick={props.handlePrevPage}>«</a></li>];
+    console.log(props.total_pages);
+    if(props.total_pages<=1){
+        return
+    }
+    console.log('yesss');
     for (let i = 1; i <= props.total_pages; i++) {
         let active_class = (props.currentPage == i) ? 'page-link active' : 'page-link';
         elements.push(<li key={i} className="page-item"><a className={active_class} href="#"
-                                                           onClick={props.handlePaginate}>{i}</a>
+                                                           onClick={() => props.handlePaginate(i)}>{i}</a>
         </li>);
     }
     elements.push(<li key={props.total_pages + 1} className="page-item"><a className="page-link" href="#"
@@ -24,25 +28,27 @@ const ProductList = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
     const getProducts = async (page) => {
-        const data = await axios.get(`http://localhost:8080/products/?page=${page}&pageSize=2`)
+        const data = await axios.get(`http://localhost:8080/products/?page=${page}&pageSize=1`)
             .then(function (response) {
                 return response
             })
             .catch(function (error) {
-                console.log(error);
+                return error
             })
             .finally(function () {
                 // always executed
             });
-        const product_data = data.data.products;
-        const totalPages = data.data.totalPages;
-        setProducts(product_data);
-        setTotalPages(totalPages);
+
+        if (!_.isUndefined(data.data) && !_.isEmpty(data.data)) {
+            const product_data = data.data.products;
+            const totalPages = data.data.totalPages;
+            setProducts(product_data);
+            setTotalPages(totalPages);
+        }
     }
-    const handlePaginate = (event) => {
-        console.log(event.target.value);
-        console.log(currentPage);
-        setCurrentPage(currentPage + 1);
+    const handlePaginate = (value) => {
+        console.log(value);
+        setCurrentPage(value);
     }
     const handlePrevPage = () => {
         if (currentPage > 1) {
@@ -59,9 +65,20 @@ const ProductList = () => {
     const createproduct = () => {
         navigate('/product/create')
     }
+    const deleteProduct = (product_id) => {
+        axios.delete(`http://localhost:8080/products/delete/${product_id}`)
+            .then(response => {
+                console.log(response.data)
+                navigate('/product/list')
+
+            })
+            .catch(error => {
+                console.error(error);
+            });
+
+    }
 
     useEffect(() => {
-        console.log('useEffect');
         getProducts(currentPage);
     }, [currentPage]);
 
@@ -125,7 +142,7 @@ const ProductList = () => {
                                                 <td> {product.status ? 'Active' : 'Inactive'}</td>
                                                 <td>
                                                     <Link to='/product/create'>Edit</Link>
-                                                    <Link to='/product/delete' className='ml-2'>Delete</Link>
+                                                    <Link to='/product/delete' className='ml-2' onClick={()=>deleteProduct(product._id)}>Delete</Link>
                                                 </td>
                                             </tr>
                                         ))}

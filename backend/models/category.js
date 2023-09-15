@@ -12,6 +12,9 @@ var categorySchema = new mongoose.Schema({
         type:String,
         required:'This field is required'
     },
+
+    parent_id:[{type: mongoose.Schema.Types.ObjectId,ref: 'Category',default: 0}],
+
     status:{
         type:Boolean,
         default: 1,
@@ -24,7 +27,7 @@ var categorySchema = new mongoose.Schema({
 		type: Date,
 		default: Date.now , // Date in one week from now
 	},
-    
+
 })
 
 module.exports = mongoose.model('Category', categorySchema);

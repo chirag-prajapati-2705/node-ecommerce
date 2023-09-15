@@ -8,7 +8,6 @@ const bcrypt = require("bcryptjs")
 
 
 router.get("/", async (req, res) => {
-    console.log('cart controller');
     let carts = await Cart.find();
     res.json({'carts': carts})
 });
