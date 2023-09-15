@@ -111,7 +111,9 @@ passport.use(new JWTStrategy({
     jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
     secretOrKey: secretKey,
 }, async (jwtPayload, done) => {
+    console.log(jwtPayload.sub)
     let user = await User.findOne({id: jwtPayload.sub});
+    console.log(user);
     if (user) {
         return done(null, user);
     } else {
@@ -124,6 +126,7 @@ const authenticateJWT = passport.authenticate('jwt', {session: false});
 
 // Generate a JWT token for a user
 function generateToken(user) {
+    console.log(user);
     const payload = {id: user.id, username: user.username};
     return jwt.sign(payload, secretKey, {expiresIn: '1h'});
 }
@@ -143,6 +146,8 @@ router.post('/login', async (req, res) => {
 
 router.get('/profile/', authenticateJWT, (req, res) => {
     console.log(req.user);
+    console.log(req.get('Authorization'));
+
     res.json({message: 'You have access to this protected route.', user: req.user});
 });
 
