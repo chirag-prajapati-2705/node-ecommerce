@@ -94,61 +94,70 @@
 //
 // module.exports = router;
 
-
 const express = require("express");
 const router = express.Router();
 const User = require("../models/users");
-const passport = require('passport');
-const passportJWT = require('passport-jwt');
-const jwt = require('jsonwebtoken');
+const passport = require("passport");
+const passportJWT = require("passport-jwt");
+const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
 const secretKey = process.env.secretKey;
 const JWTStrategy = passportJWT.Strategy;
 const ExtractJWT = passportJWT.ExtractJwt;
 
-passport.use(new JWTStrategy({
-    jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-    secretOrKey: secretKey,
-}, async (jwtPayload, done) => {
-    console.log(jwtPayload.sub)
-    let user = await User.findOne({id: jwtPayload.sub});
-    console.log(user);
-    if (user) {
+passport.use(
+  new JWTStrategy(
+    {
+      jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
+      secretOrKey: secretKey,
+    },
+    async (jwtPayload, done) => {
+      console.log(jwtPayload.sub);
+      let user = await User.findOne({ id: jwtPayload.sub });
+      console.log(user);
+      if (user) {
         return done(null, user);
-    } else {
+      } else {
         return done(null, false);
+      }
     }
-}));
+  )
+);
 
 // Middleware to protect routes with JWT authentication
-const authenticateJWT = passport.authenticate('jwt', {session: false});
+const authenticateJWT = passport.authenticate("jwt", { session: false });
 
 // Generate a JWT token for a user
 function generateToken(user) {
-    console.log(user);
-    const payload = {id: user.id, username: user.username};
-    return jwt.sign(payload, secretKey, {expiresIn: '1h'});
+  console.log(user);
+  const payload = { id: user.id, username: user.username };
+  return jwt.sign(payload, secretKey, { expiresIn: "1h" });
 }
 
-router.post('/login', async (req, res) => {
-    const {email, password} = req.body;
-    const user = await User.findOne({email});
-    const validatePassword = await bcrypt.compare(password, user.password)
+router.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+  const user = await User.findOne({ email });
 
-    if (user && validatePassword) {
-        const token = generateToken(user);
-        res.json({token});
-    } else {
-        res.status(401).json({message: 'Authentication failed'});
-    }
+  console.log("-----------------user--------------", user);
+  const validatePassword = await bcrypt.compare(password, user.password);
+
+  if (user && validatePassword) {
+    const token = generateToken(user);
+    res.json({ token });
+  } else {
+    res.status(401).json({ message: "Authentication failed" });
+  }
 });
 
-router.get('/profile/', authenticateJWT, (req, res) => {
-    console.log(req.user);
-    console.log(req.get('Authorization'));
+router.get("/profile/", authenticateJWT, (req, res) => {
+  console.log(req.user);
+  console.log(req.get("Authorization"));
 
-    res.json({message: 'You have access to this protected route.', user: req.user});
+  res.json({
+    message: "You have access to this protected route.",
+    user: req.user,
+  });
 });
 
 module.exports = router;

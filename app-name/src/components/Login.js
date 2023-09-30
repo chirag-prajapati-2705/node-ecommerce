@@ -45,7 +45,7 @@ function LoginForm() {
             if (token) {
                 window.localStorage.setItem("token", token);
                 window.localStorage.setItem("loggedIn", true);
-                navigate('/');
+                navigate('admin/');
             }
             setErrorMessage(response.message);
         } catch (e) {
